@@ -49,6 +49,7 @@ static DMKeychain *sharedKeychain = nil;
 
 - (NSData*)jsonData {
     DMKeychainItemWrapper *wrapper = [[DMKeychainItemWrapper alloc] initWithIdentifier:self.identifier accessGroup:nil];
+    [wrapper setObject:keychainId forKey:(id)kSecAttrService];
     NSString *jsonString = [wrapper objectForKey:(NSString*)kSecValueData];
     
     if (jsonString && ![jsonString isEqualToString:@""]) return [jsonString dataUsingEncoding:NSUTF8StringEncoding];
@@ -59,6 +60,7 @@ static DMKeychain *sharedKeychain = nil;
 - (void)setJsonData:(NSData*)data {
     if (data) {
         DMKeychainItemWrapper *wrapper = [[DMKeychainItemWrapper alloc] initWithIdentifier:self.identifier accessGroup:nil];
+        [wrapper setObject:keychainId forKey:(id)kSecAttrService];
         [wrapper setObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:(NSString*)kSecValueData];
     }
     else {
